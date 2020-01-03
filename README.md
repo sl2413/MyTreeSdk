@@ -1,6 +1,6 @@
-# MyUtils
+# 一个关于三方功能的类库
 # 淘宝api使用方法
-## step1:在全局build.gradle中添加
+## step1:在全局build.gradle中添加(注：记住添加淘宝的安全图片)
 ```
 allprojects {
 		repositories {
