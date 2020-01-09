@@ -1,6 +1,17 @@
 package com.shenl.mytree.Login;
 
+import android.content.Context;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
+
 import com.ali.auth.third.core.model.Session;
+import com.alibaba.baichuan.android.trade.AlibcTrade;
+import com.alibaba.baichuan.android.trade.model.AlibcShowParams;
+import com.alibaba.baichuan.android.trade.model.OpenType;
+import com.alibaba.baichuan.trade.biz.applink.adapter.AlibcFailModeType;
+import com.alibaba.baichuan.trade.biz.context.AlibcTradeContext;
+import com.alibaba.baichuan.trade.biz.context.AlibcTradeContext.AlibcTradeCallback;
+import com.alibaba.baichuan.trade.biz.context.AlibcTradeResult;
 import com.alibaba.baichuan.trade.biz.login.AlibcLogin;
 import com.alibaba.baichuan.trade.biz.login.AlibcLoginCallback;
 
