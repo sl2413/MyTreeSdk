@@ -1,7 +1,11 @@
 package com.shenl.mytree.Login;
 
+import com.ali.auth.third.core.model.Session;
 import com.alibaba.baichuan.trade.biz.login.AlibcLogin;
 import com.alibaba.baichuan.trade.biz.login.AlibcLoginCallback;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class TaoBaoLogin {
     /**
@@ -62,8 +66,16 @@ public class TaoBaoLogin {
      * 作    者:   沈  亮
      * 创建时间:   2019/12/31
      */
-    public static String getTaoBaoUserInfo(){
-        return AlibcLogin.getInstance().getSession()+"";
+    public static Map<String, String> getTaoBaoUserInfo(){
+        Map<String, String> map = new HashMap<>();
+        Session session = AlibcLogin.getInstance().getSession();
+        map.put("nick",session.nick);//用户昵称
+        map.put("avatarUrl",session.avatarUrl);//用户头像
+        map.put("topAccessToken",session.topAccessToken);//登录Token
+        map.put("openId",session.openId);
+        map.put("openSid",session.openSid);
+        map.put("topAuthCode",session.topAuthCode);
+        return map;
     }
 
     /**
