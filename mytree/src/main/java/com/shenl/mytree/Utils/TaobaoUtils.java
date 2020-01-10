@@ -11,12 +11,13 @@ import com.alibaba.baichuan.android.trade.model.AlibcShowParams;
 import com.alibaba.baichuan.android.trade.model.OpenType;
 import com.alibaba.baichuan.android.trade.page.AlibcBasePage;
 import com.alibaba.baichuan.android.trade.page.AlibcDetailPage;
+import com.alibaba.baichuan.trade.biz.alipay.AliPayResult;
 import com.alibaba.baichuan.trade.biz.applink.adapter.AlibcFailModeType;
-import com.alibaba.baichuan.trade.biz.context.AlibcResultType;
 import com.alibaba.baichuan.trade.biz.context.AlibcTradeResult;
 import com.alibaba.baichuan.trade.biz.core.taoke.AlibcTaokeParams;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class TaobaoUtils {
@@ -35,7 +36,7 @@ public class TaobaoUtils {
      * @param Adzoneid
      * @param AppKey
      */
-    public void setParams(String Pid,String Adzoneid,String AppKey) {
+    public void setParams(String Pid, String Adzoneid, String AppKey) {
         this.Pid = Pid;
         this.Adzoneid = Adzoneid;
         this.AppKey = AppKey;
@@ -119,7 +120,10 @@ public class TaobaoUtils {
                     @Override
                     public void onTradeSuccess(AlibcTradeResult tradeResult) {
                         // 交易成功回调（其他情形不回调）
-                        openPageCallBack.success(tradeResult);
+                        AliPayResult payResult = tradeResult.payResult;
+                        List<String> payFailedOrders = payResult.payFailedOrders;
+                        List<String> paySuccessOrders = payResult.paySuccessOrders;
+                        openPageCallBack.success(paySuccessOrders,payFailedOrders);
                     }
 
                     @Override
@@ -148,7 +152,7 @@ public class TaobaoUtils {
      * 作    者:   沈  亮
      * 创建时间:   2020/1/7
      */
-    interface OpenPageCallBack {
-        void success(AlibcTradeResult tradeResult);
+    public interface OpenPageCallBack {
+        void success(List<String> paySuccessOrders, List<String> payFailedOrders);
     }
 }

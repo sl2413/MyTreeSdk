@@ -7,7 +7,11 @@ import android.util.Log;
 import android.view.View;
 
 import com.shenl.mytree.Login.TaoBaoLogin;
+import com.shenl.mytree.Utils.TaobaoUtils;
+import com.shenl.mytree.Utils.TaobaoUtils.OpenPageCallBack;
 import com.shenl.mytree.initTree.TaoBaoInit;
+
+import java.util.List;
 
 public class MainActivity extends Activity {
 
@@ -33,6 +37,13 @@ public class MainActivity extends Activity {
                 // topAuthCode=IU0PgUg25cEEHaaeln3qozgW3853010
                 // topExpireTime=7776000
                 Log.e("shenl","获取淘宝用户信息: " + TaoBaoLogin.getTaoBaoUserInfo());
+            }
+        });
+
+        TaobaoUtils.openDetails(MainActivity.this, "", new OpenPageCallBack() {
+            @Override
+            public void success(List<String> paySuccessOrders, List<String> payFailedOrders) {
+
             }
         });
     }
