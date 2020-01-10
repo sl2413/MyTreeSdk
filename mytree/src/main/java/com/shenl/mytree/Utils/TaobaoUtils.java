@@ -12,6 +12,7 @@ import com.alibaba.baichuan.android.trade.model.OpenType;
 import com.alibaba.baichuan.android.trade.page.AlibcBasePage;
 import com.alibaba.baichuan.android.trade.page.AlibcDetailPage;
 import com.alibaba.baichuan.trade.biz.applink.adapter.AlibcFailModeType;
+import com.alibaba.baichuan.trade.biz.context.AlibcResultType;
 import com.alibaba.baichuan.trade.biz.context.AlibcTradeResult;
 import com.alibaba.baichuan.trade.biz.core.taoke.AlibcTaokeParams;
 
@@ -20,10 +21,24 @@ import java.util.Map;
 
 public class TaobaoUtils {
 
+    public static String Pid;
+    public static String Adzoneid;
     public static String AppKey;
 
-    public void setAppKey(String appKey) {
-        this.AppKey = appKey;
+    /**
+     * TODO 功能：活动任务适配器
+     *
+     * 参数说明:
+     * 作    者:   沈  亮
+     * 创建时间:   2020/1/10
+     * @param Pid
+     * @param Adzoneid
+     * @param AppKey
+     */
+    public void setParams(String Pid,String Adzoneid,String AppKey) {
+        this.Pid = Pid;
+        this.Adzoneid = Adzoneid;
+        this.AppKey = AppKey;
     }
 
     /**
@@ -35,10 +50,10 @@ public class TaobaoUtils {
      */
     private static boolean isAppKey() {
         boolean b = false;
-        if (!TextUtils.isEmpty(AppKey)){
+        if (!TextUtils.isEmpty(AppKey) && !TextUtils.isEmpty(Pid) && !TextUtils.isEmpty(Adzoneid)){
             b = true;
         }else{
-            System.out.println("appkey还未设置,设置方法TaobaoUtils.setAppKey(appKey) 或者 TaobaoUtils.AppKey=appKey");
+            System.out.println("还未设置参数,请在初始化之后调用方法TaobaoUtils.setParams()");
         }
         return b;
     }
@@ -92,8 +107,8 @@ public class TaobaoUtils {
         showParams.setNativeOpenFailedMode(AlibcFailModeType.AlibcNativeFailModeJumpH5);
 
         AlibcTaokeParams taokeParams = new AlibcTaokeParams("", "", "");
-        taokeParams.setPid("mm_112883640_11584347_72287650277");
-        taokeParams.setAdzoneid(itemId);
+        taokeParams.setPid(Pid);
+        taokeParams.setAdzoneid(Adzoneid);
         //adzoneid是需要taokeAppkey参数才可以转链成功&店铺页面需要卖家id（sellerId），具体设置方式如下：
         taokeParams.extraParams.put("taokeAppkey",AppKey);
         //taokeParams.extraParams.put("sellerId", "xxxxx");
