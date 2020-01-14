@@ -2,7 +2,9 @@ package com.shenl.mytree.Utils;
 
 import android.app.Activity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.webkit.WebChromeClient;
+import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.alibaba.baichuan.android.trade.AlibcTrade;
@@ -73,7 +75,7 @@ public class TaobaoUtils {
         if (!isAppKey()){
             return;
         }
-        HashMap<String, String> map = new HashMap<>();
+        Map<String, String> map = new HashMap<>();
         openDetails(activity, itemId, map, openPageCallBack);
     }
 
@@ -107,12 +109,24 @@ public class TaobaoUtils {
         //AlibcNativeFailModeJumpH5：应用内webview打开
         showParams.setNativeOpenFailedMode(AlibcFailModeType.AlibcNativeFailModeJumpH5);
 
-        AlibcTaokeParams taokeParams = new AlibcTaokeParams("", "", "");
-        taokeParams.setPid(Pid);
-        taokeParams.setAdzoneid(Adzoneid);
+        AlibcTaokeParams taokeParams = new AlibcTaokeParams(Pid,"","");
+//        taokeParams.setPid(Pid);
+//        taokeParams.setAdzoneid(Adzoneid);
         //adzoneid是需要taokeAppkey参数才可以转链成功&店铺页面需要卖家id（sellerId），具体设置方式如下：
-        taokeParams.extraParams.put("taokeAppkey",AppKey);
+//        taokeParams.extraParams.put("taokeAppkey",AppKey);
         //taokeParams.extraParams.put("sellerId", "xxxxx");
+
+        /*AlibcTrade.openByUrl(activity, "", "", new WebView(activity), new WebViewClient(), new WebChromeClient(), showParams, taokeParams, trackParams, new AlibcTradeCallback() {
+            @Override
+            public void onTradeSuccess(AlibcTradeResult alibcTradeResult) {
+                Log.e("shenl","成功回调");
+            }
+
+            @Override
+            public void onFailure(int i, String s) {
+
+            }
+        });*/
 
         AlibcTrade.openByBizCode(activity, page, null, new WebViewClient(),
                 new WebChromeClient(), "detail", showParams, taokeParams,
@@ -130,6 +144,7 @@ public class TaobaoUtils {
                     public void onFailure(int code, String msg) {
                         // 失败回调信息
                         System.out.println("唤起失败:code=" + code + ", msg=" + msg);
+                        Log.e("shenl","唤起失败:code=" + code + ", msg=" + msg);
                     }
                 });
     }

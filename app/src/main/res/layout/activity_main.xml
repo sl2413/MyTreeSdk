@@ -16,5 +16,16 @@
         android:layout_height="wrap_content"
         android:text="登录淘宝"
         android:onClick="loginTaobao"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="打开页面"
+        android:onClick="openTaobao"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="登出淘宝"
+        android:onClick="logoutTaobao"/>
 
 </LinearLayout>
