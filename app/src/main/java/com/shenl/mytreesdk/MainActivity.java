@@ -47,6 +47,16 @@ public class MainActivity extends Activity {
         });
     }
 
+    public void openTaobaoByUrl(){
+        String url = "";
+        TaobaoUtils.openDetailsByUrl(MainActivity.this, url, new OpenPageCallBack() {
+            @Override
+            public void success(List<String> paySuccessOrders, List<String> payFailedOrders) {
+
+            }
+        });
+    }
+
     public void logoutTaobao(View v){
         TaoBaoLogin.logout();
     }

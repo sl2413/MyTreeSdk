@@ -25,6 +25,12 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="url页面"
+        android:onClick="openTaobaoByUrl"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:text="登出淘宝"
         android:onClick="logoutTaobao"/>
 
