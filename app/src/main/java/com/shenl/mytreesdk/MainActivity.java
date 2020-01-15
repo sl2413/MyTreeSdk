@@ -47,12 +47,12 @@ public class MainActivity extends Activity {
         });
     }
 
-    public void openTaobaoByUrl(){
-        String url = "";
+    public void openTaobaoByUrl(View v){
+        String url = "https://oauth.taobao.com/authorize?response_type=code&client_id=26015735&redirect_uri=http://m.qianrong.vip:8040/qr-consumer-user/userserver/user/getTaobaoAccessToken&state=1212&view=wap";
         TaobaoUtils.openDetailsByUrl(MainActivity.this, url, new OpenPageCallBack() {
             @Override
             public void success(List<String> paySuccessOrders, List<String> payFailedOrders) {
-
+                Log.e("shenl","授权完成");
             }
         });
     }
