@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.webkit.WebChromeClient;
+import android.webkit.WebResourceRequest;
+import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import com.alibaba.baichuan.android.trade.AlibcTrade;
 import com.alibaba.baichuan.android.trade.callback.AlibcTradeCallback;
@@ -15,7 +17,6 @@ import com.alibaba.baichuan.trade.biz.alipay.AliPayResult;
 import com.alibaba.baichuan.trade.biz.applink.adapter.AlibcFailModeType;
 import com.alibaba.baichuan.trade.biz.context.AlibcTradeResult;
 import com.alibaba.baichuan.trade.biz.core.taoke.AlibcTaokeParams;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -155,7 +156,7 @@ public class TaobaoUtils {
      * 作    者:   沈  亮
      * 创建时间:   2020/1/14
      */
-    public static void openDetailsByUrl(Activity activity, String url, final OpenPageCallBack openPageCallBack) {
+    public static void openDetailsByUrl(Activity activity, String url,Map<String, String> trackParams,final OpenPageCallBack openPageCallBack) {
         AlibcShowParams showParams = new AlibcShowParams();
         //OpenType.Auto 不做任何设置自动选择打开方式
         // OpenType.Native 唤起客户端
@@ -170,14 +171,13 @@ public class TaobaoUtils {
         //AlibcNativeFailModeJumpH5：应用内webview打开
         showParams.setNativeOpenFailedMode(AlibcFailModeType.AlibcNativeFailModeJumpH5);
         AlibcTaokeParams taokeParams = new AlibcTaokeParams(Pid, "", "");
-        Map<String, String> trackParams = new HashMap<>();
-
         // 以显示传入url的方式打开页面（第二个参数是套件名称）
         AlibcTrade.openByUrl(activity, "", url, null,
                 new WebViewClient(), new WebChromeClient(), showParams,
                 taokeParams, trackParams, new AlibcTradeCallback() {
                     @Override
                     public void onTradeSuccess(AlibcTradeResult tradeResult) {
+                        Log.e("shenl","成功回调");
                         // 交易成功回调（其他情形不回调）
                         AliPayResult payResult = tradeResult.payResult;
                         List<String> payFailedOrders = payResult.payFailedOrders;
@@ -202,7 +202,7 @@ public class TaobaoUtils {
      * 创建时间:   2020/1/7
      */
     public static void openShop() {
-
+        
     }
 
     /**

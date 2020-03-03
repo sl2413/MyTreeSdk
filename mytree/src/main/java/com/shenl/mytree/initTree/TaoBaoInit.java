@@ -1,6 +1,8 @@
 package com.shenl.mytree.initTree;
 
 import android.app.Application;
+import android.util.Log;
+
 import com.alibaba.baichuan.android.trade.AlibcTradeSDK;
 import com.alibaba.baichuan.android.trade.callback.AlibcTradeInitCallback;
 
@@ -17,11 +19,13 @@ public class TaoBaoInit {
             @Override
             public void onSuccess() {
                 System.out.println("===========淘宝api初始化成功===========");
+                Log.e("shenl","===========淘宝api初始化成功===========");
             }
 
             @Override
             public void onFailure(int code, String msg) {
                 System.out.println("***淘宝api初始化失败:"+code+"***{"+msg+"}");
+                Log.e("shenl","***淘宝api初始化失败:"+code+"***{"+msg+"}");
             }
         });
     }
