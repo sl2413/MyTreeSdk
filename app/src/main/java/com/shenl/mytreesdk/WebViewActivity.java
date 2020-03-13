@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.webkit.WebChromeClient;
 import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
@@ -12,15 +13,17 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.github.lzyzsd.jsbridge.BridgeHandler;
+import com.github.lzyzsd.jsbridge.BridgeWebView;
+import com.github.lzyzsd.jsbridge.CallBackFunction;
+import com.github.lzyzsd.jsbridge.DefaultHandler;
 
 
 public class WebViewActivity extends Activity {
 
-    private WebView webView;
-    private String url;
-    private LinearLayout ll_btns;
-    private String aaa = "https://oauth.taobao.com/authorize?response_type=code&client_id=28294826&redirect_uri=http://m.qianrong.vip:8040/qr-consumer-user/userserver/user/getTaobaoAccessToken&view=wap&state=";
+    private BridgeWebView webView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,79 +37,29 @@ public class WebViewActivity extends Activity {
 
     public void initView() {
         webView = findViewById(R.id.webView);
-        ll_btns = findViewById(R.id.ll_btns);
+        webView.setDefaultHandler(new DefaultHandler());
+        webView.setWebChromeClient(new WebChromeClient());
+//      webView.loadUrl("file:///android_asset/index.html");
+        webView.loadUrl("https://oauth.taobao.com/authorize?response_type=code&client_id=28294826&redirect_uri=http://m.qianrong.vip:8040/qr-consumer-user/userserver/user/getTaobaoAccessToken&view=wap&state=1");
+//      注册监听方法当js中调用callHandler方法时会调用此方法（handlerName必须和js中相同）
+        webView.registerHandler("submitFromWeb", new BridgeHandler() {
+            @Override
+            public void handler(String data, CallBackFunction function) {
+                Log.e("shenl", "js返回：" + data);
+                //显示js传递给Android的消息
+                Toast.makeText(WebViewActivity.this, "js返回:" + data, Toast.LENGTH_LONG).show();
+                //Android返回给JS的消息
+                function.onCallBack("我是js调用Android返回数据：22222");
+                finish();
+            }
+        });
     }
 
     public void initData() {
-        WebSettings settings = webView.getSettings();
-        settings.setJavaScriptEnabled(true);
-        settings.setJavaScriptCanOpenWindowsAutomatically(true);
-        settings.setUseWideViewPort(true);
-        settings.supportMultipleWindows();
-        settings.setAllowFileAccess(true);
-        settings.setBuiltInZoomControls(true);
-        settings.setLoadWithOverviewMode(true);
-        settings.setLoadsImagesAutomatically(true);
-        //settings.setSupportZoom(true);
-        //调整图片至适合webview的大小
-        settings.setUseWideViewPort(true);
-        // 缩放至屏幕的大小
-        settings.setLoadWithOverviewMode(true);
-        settings.setLoadsImagesAutomatically(true);
-        //设置默认编码
-        settings.setDefaultTextEncodingName("utf-8");
-        //设置自动加载图片
-        settings.setLoadsImagesAutomatically(true);
-        settings.setTextSize(WebSettings.TextSize.NORMAL);
-        //webView.setWebViewClient(new WebViewClient());
-        //webView.setWebChromeClient(new WebChromeClient());
-
-        webView.setWebViewClient(new WebViewClient() {
-            @Override
-            public boolean shouldOverrideUrlLoading(final WebView view, final String url) {
-                //监听跳转的url
-                return false;
-            }
-
-            @Override
-            public void onLoadResource(WebView view, String url) {
-                //监听网络请求的过程
-                super.onLoadResource(view, url);
-            }
-
-            @Override
-            public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
-                //监听网页错误
-            }
-
-            @Override
-            public void onPageStarted(WebView view, String url, Bitmap favicon) {
-                //监听网页开始加载
-                super.onPageStarted(view, url, favicon);
-            }
-
-            @Override
-            public void onPageFinished(WebView view, String url) {
-                //监听网页加载完成
-                if (!url.equals(aaa+1)){
-                    //finish();
-                }
-                super.onPageFinished(view, url);
-            }
-        });
-
-        webView.loadUrl(aaa+1);
     }
 
     public void initEvent() {
 
-    }
-
-    public void toPay(View v){
-        String url = webView.getUrl();
-        String originalUrl = webView.getOriginalUrl();
-        Log.e("shenl",url);
-        Log.e("shenl",originalUrl);
     }
 
 }

@@ -8,6 +8,11 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.webkit.WebChromeClient;
+import com.github.lzyzsd.jsbridge.BridgeHandler;
+import com.github.lzyzsd.jsbridge.BridgeWebView;
+import com.github.lzyzsd.jsbridge.CallBackFunction;
+import com.github.lzyzsd.jsbridge.DefaultHandler;
 import com.shenl.mytree.Login.TaoBaoLogin;
 import com.shenl.mytree.Login.WXlogin;
 import com.shenl.mytree.Share.WXshare;
@@ -19,7 +24,7 @@ import com.shenl.mytree.Utils.WxUtils;
 import com.shenl.mytree.initTree.TaoBaoInit;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+
 
 public class MainActivity extends Activity {
 
@@ -49,6 +54,19 @@ public class MainActivity extends Activity {
             public void onSuccess(int code, String openId, String nickName) {
 //                Intent intent = new Intent(MainActivity.this, WebViewActivity.class);
 //                startActivity(intent);
+
+                BridgeWebView webView = new BridgeWebView(MainActivity.this);
+                webView.setDefaultHandler(new DefaultHandler());
+                webView.setWebChromeClient(new WebChromeClient());
+                webView.registerHandler("submitFromWeb", new BridgeHandler() {
+                    @Override
+                    public void handler(String data, CallBackFunction function) {
+                        Log.e("shenl", "js返回：" + data);
+                        //Android返回给JS的消息
+                        function.onCallBack("我是js调用Android返回数据：");
+                    }
+                });
+                //webView.loadUrl("file:///android_asset/index.html");
                 String url = "https://oauth.taobao.com/authorize?response_type=code&client_id=28294826&redirect_uri=http://m.qianrong.vip:8040/qr-consumer-user/userserver/user/getTaobaoAccessToken&view=wap&state=1";
                 TaobaoUtils.openDetailsByUrl(MainActivity.this, url,new HashMap<String, String>(), new OpenPageCallBack() {
                     @Override
@@ -70,15 +88,8 @@ public class MainActivity extends Activity {
     }
 
     public void openTaobaoByUrl(View v){
-        //topAuthCode
-        String url = "https://oauth.taobao.com/token";
-        HashMap<String, String> map = new HashMap<>();
-        map.put("code",topAuthCode);
-        map.put("grantType","authorization_code");
-        map.put("client_id","27996984");
-        map.put("client_secret","976889e5ba86d78a7f64391b3aa634ad");
-        map.put("redirect_uri","http://m.qianrong.vip:8040");
-        TaobaoUtils.openDetailsByUrl(MainActivity.this, url,map, new OpenPageCallBack() {
+        String url = "";
+        TaobaoUtils.openDetailsByUrl(MainActivity.this, url,new HashMap<String, String>(), new OpenPageCallBack() {
             @Override
             public void success(List<String> paySuccessOrders, List<String> payFailedOrders) {
                 Log.e("shenl","授权完成");

@@ -1,12 +1,18 @@
 package com.shenl.mytree.Utils;
 
 import android.app.Activity;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+
+import androidx.viewpager.widget.ViewPager;
+
 import com.alibaba.baichuan.android.trade.AlibcTrade;
 import com.alibaba.baichuan.android.trade.callback.AlibcTradeCallback;
 import com.alibaba.baichuan.android.trade.model.AlibcShowParams;
@@ -17,6 +23,11 @@ import com.alibaba.baichuan.trade.biz.alipay.AliPayResult;
 import com.alibaba.baichuan.trade.biz.applink.adapter.AlibcFailModeType;
 import com.alibaba.baichuan.trade.biz.context.AlibcTradeResult;
 import com.alibaba.baichuan.trade.biz.core.taoke.AlibcTaokeParams;
+import com.github.lzyzsd.jsbridge.BridgeHandler;
+import com.github.lzyzsd.jsbridge.BridgeWebView;
+import com.github.lzyzsd.jsbridge.CallBackFunction;
+import com.github.lzyzsd.jsbridge.DefaultHandler;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -156,7 +167,7 @@ public class TaobaoUtils {
      * 作    者:   沈  亮
      * 创建时间:   2020/1/14
      */
-    public static void openDetailsByUrl(Activity activity, String url,Map<String, String> trackParams,final OpenPageCallBack openPageCallBack) {
+    public static void openDetailsByUrl(Activity activity, String url, Map<String, String> trackParams, final OpenPageCallBack openPageCallBack) {
         AlibcShowParams showParams = new AlibcShowParams();
         //OpenType.Auto 不做任何设置自动选择打开方式
         // OpenType.Native 唤起客户端
@@ -172,12 +183,22 @@ public class TaobaoUtils {
         showParams.setNativeOpenFailedMode(AlibcFailModeType.AlibcNativeFailModeJumpH5);
         AlibcTaokeParams taokeParams = new AlibcTaokeParams(Pid, "", "");
         // 以显示传入url的方式打开页面（第二个参数是套件名称）
-        AlibcTrade.openByUrl(activity, "", url, null,
-                new WebViewClient(), new WebChromeClient(), showParams,
+        //webView.loadUrl("file:///android_asset/index.html");
+
+        WebView webView = new WebView(activity);
+        webView.setWebViewClient(new WebViewClient(){
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                Log.e("shenl",url);
+            }
+        });
+
+        AlibcTrade.openByUrl(activity, "", url, webView,
+                new MyWebViewClient(), new WebChromeClient(), showParams,
                 taokeParams, trackParams, new AlibcTradeCallback() {
                     @Override
                     public void onTradeSuccess(AlibcTradeResult tradeResult) {
-                        Log.e("shenl","成功回调");
+                        Log.e("shenl", "成功回调");
                         // 交易成功回调（其他情形不回调）
                         AliPayResult payResult = tradeResult.payResult;
                         List<String> payFailedOrders = payResult.payFailedOrders;
@@ -194,6 +215,16 @@ public class TaobaoUtils {
                 });
     }
 
+    private static class MyWebViewClient extends WebViewClient {
+        @Override
+        // 在WebView中而不是默认浏览器中显示页面
+        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+            Log.e("shenl",url);
+            view.loadUrl(url);
+            return true;
+        }
+    }
+
     /**
      * TODO 功能：打开商铺页面
      * <p>
@@ -202,7 +233,7 @@ public class TaobaoUtils {
      * 创建时间:   2020/1/7
      */
     public static void openShop() {
-        
+
     }
 
     /**
