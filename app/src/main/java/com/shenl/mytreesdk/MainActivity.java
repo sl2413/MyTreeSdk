@@ -52,9 +52,6 @@ public class MainActivity extends Activity {
         TaoBaoLogin.Login(new TaoBaoLogin.TaoBaoLoginCallBack() {
             @Override
             public void onSuccess(int code, String openId, String nickName) {
-//                Intent intent = new Intent(MainActivity.this, WebViewActivity.class);
-//                startActivity(intent);
-
                 BridgeWebView webView = new BridgeWebView(MainActivity.this);
                 webView.setDefaultHandler(new DefaultHandler());
                 webView.setWebChromeClient(new WebChromeClient());

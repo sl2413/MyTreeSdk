@@ -184,16 +184,7 @@ public class TaobaoUtils {
         AlibcTaokeParams taokeParams = new AlibcTaokeParams(Pid, "", "");
         // 以显示传入url的方式打开页面（第二个参数是套件名称）
         //webView.loadUrl("file:///android_asset/index.html");
-
-        WebView webView = new WebView(activity);
-        webView.setWebViewClient(new WebViewClient(){
-            @Override
-            public void onPageFinished(WebView view, String url) {
-                Log.e("shenl",url);
-            }
-        });
-
-        AlibcTrade.openByUrl(activity, "", url, webView,
+        AlibcTrade.openByUrl(activity, "", url, null,
                 new MyWebViewClient(), new WebChromeClient(), showParams,
                 taokeParams, trackParams, new AlibcTradeCallback() {
                     @Override
