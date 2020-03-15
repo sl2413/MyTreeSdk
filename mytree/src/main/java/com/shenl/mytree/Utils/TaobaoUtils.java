@@ -113,7 +113,7 @@ public class TaobaoUtils {
         //taobao---唤起淘宝客户端；tmall---唤起天猫客户端
         showParams.setClientType("taobao");
         //唤起端返回的url 以小把手的形式在唤起端展示
-        //showParams.setBackUrl(BACK_URL);
+        showParams.setBackUrl("scheme://mtime/mainActivity");
         //AlibcNativeFailModeNONE：不做处理；
         //AlibcNativeFailModeJumpBROWER：跳转浏览器；
         //AlibcNativeFailModeJumpDOWNLOAD：跳转下载页；
