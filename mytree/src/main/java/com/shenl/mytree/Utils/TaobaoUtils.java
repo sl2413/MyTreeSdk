@@ -167,7 +167,7 @@ public class TaobaoUtils {
      * 作    者:   沈  亮
      * 创建时间:   2020/1/14
      */
-    public static void openDetailsByUrl(Activity activity, String url, Map<String, String> trackParams, final OpenPageCallBack openPageCallBack) {
+    public static void openDetailsByUrl(Activity activity, String url,String scheme,Map<String, String> trackParams, final OpenPageCallBack openPageCallBack) {
         AlibcShowParams showParams = new AlibcShowParams();
         //OpenType.Auto 不做任何设置自动选择打开方式
         // OpenType.Native 唤起客户端
@@ -175,7 +175,7 @@ public class TaobaoUtils {
         //taobao---唤起淘宝客户端；tmall---唤起天猫客户端
         showParams.setClientType("taobao");
         //唤起端返回的url 以小把手的形式在唤起端展示
-        //showParams.setBackUrl(BACK_URL);
+        showParams.setBackUrl(scheme);
         //AlibcNativeFailModeNONE：不做处理；
         //AlibcNativeFailModeJumpBROWER：跳转浏览器；
         //AlibcNativeFailModeJumpDOWNLOAD：跳转下载页；
