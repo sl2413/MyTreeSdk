@@ -65,7 +65,7 @@ public class MainActivity extends Activity {
                 });
                 //webView.loadUrl("file:///android_asset/index.html");
                 String url = "https://oauth.taobao.com/authorize?response_type=code&client_id=28294826&redirect_uri=http://m.qianrong.vip:8040/qr-consumer-user/userserver/user/getTaobaoAccessToken&view=wap&state=1";
-                TaobaoUtils.openDetailsByUrl(MainActivity.this, url,new HashMap<String, String>(), new OpenPageCallBack() {
+                TaobaoUtils.openDetailsByUrl(MainActivity.this, url,"",new HashMap<String, String>(), new OpenPageCallBack() {
                     @Override
                     public void success(List<String> paySuccessOrders, List<String> payFailedOrders) {
                         Log.e("shenl","授权完成");
@@ -86,7 +86,7 @@ public class MainActivity extends Activity {
 
     public void openTaobaoByUrl(View v){
         String url = "";
-        TaobaoUtils.openDetailsByUrl(MainActivity.this, url,new HashMap<String, String>(), new OpenPageCallBack() {
+        TaobaoUtils.openDetailsByUrl(MainActivity.this, url,"",new HashMap<String, String>(), new OpenPageCallBack() {
             @Override
             public void success(List<String> paySuccessOrders, List<String> payFailedOrders) {
                 Log.e("shenl","授权完成");
