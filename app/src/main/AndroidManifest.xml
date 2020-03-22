@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.shenl.mytreesdk">
 
+
+
     <application
         tools:replace="android:allowBackup"
         android:allowBackup="true"
