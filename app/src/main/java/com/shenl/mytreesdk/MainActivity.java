@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.webkit.WebChromeClient;
@@ -120,7 +121,27 @@ public class MainActivity extends Activity {
             public void Success(String s) {
                 String errcode = JsonUtils.getFieldValue(s, "errcode");
                 if (!"0".equals(errcode)){
-                    WXlogin.getRefreshToken();
+                    WXlogin.getRefreshToken(new WXlogin.TokenListener() {
+                        @Override
+                        public void success() {
+                            WXlogin.getUserInfo(MainActivity.this,new HttpUtils.HttpCallBack() {
+                                @Override
+                                public void Success(String s) {
+                                    Log.e("shenl", s);
+                                }
+
+                                @Override
+                                public void Fail(int ResponseCode) {
+                                    Log.e("shenl", "网络错误:" + ResponseCode);
+                                }
+                            });
+                        }
+
+                        @Override
+                        public void Fail() {
+
+                        }
+                    });
                 }
             }
 
