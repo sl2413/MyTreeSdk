@@ -5,7 +5,6 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
-import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
@@ -21,6 +20,7 @@ public class WxUtils {
     public static String openid = "";
     public static String scope = "";
     public static String unionid = "";
+
 
     //分享到对话
     public static final int SESSION = SendMessageToWX.Req.WXSceneSession;

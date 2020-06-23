@@ -15,6 +15,7 @@ import com.github.lzyzsd.jsbridge.CallBackFunction;
 import com.github.lzyzsd.jsbridge.DefaultHandler;
 import com.shenl.mytree.Login.TaoBaoLogin;
 import com.shenl.mytree.Login.WXlogin;
+import com.shenl.mytree.Share.ShareUtils;
 import com.shenl.mytree.Share.WXshare;
 import com.shenl.mytree.Utils.HttpUtils;
 import com.shenl.mytree.Utils.JsonUtils;
@@ -87,6 +88,17 @@ public class MainActivity extends Activity {
     }
 
 
+    public void Share(View v){
+        ShareUtils shareUtils = new ShareUtils(new String[]{ShareUtils.WEIXIN});
+        shareUtils.ShowShare(MainActivity.this, new ShareUtils.onItemClickListener() {
+            @Override
+            public void onItemClick(ShareUtils.ShareBean bean) {
+                Log.e("shenl",bean.proName);
+                Log.e("shenl",bean.text);
+
+            }
+        });
+    }
 
     public void ShareText(View v){
         WXshare.ShareText(MainActivity.this,WxUtils.TIMELINE,"微信分享文字");
