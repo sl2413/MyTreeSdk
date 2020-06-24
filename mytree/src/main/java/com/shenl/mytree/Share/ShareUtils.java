@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -20,6 +21,8 @@ public class ShareUtils {
 
     //分享平台
     public static final String WEIXIN = "WeiXin";
+    public static final String QQ = "QQ";
+    public static final String XINLANG = "XinLang";
 
     private List<ShareBean> list;
     /**
@@ -49,6 +52,24 @@ public class ShareUtils {
                     list.add(bean1);
                     list.add(bean2);
                 }
+                //添加QQ平台
+                if (pro[i].equals(QQ)){
+                    ShareBean bean = new ShareBean();
+                    bean.icon = R.drawable.qq;
+                    bean.text = "QQ";
+                    bean.type = -1;
+                    bean.proName = QQ;
+                    list.add(bean);
+                }
+                //添加新浪微博
+                if (pro[i].equals(XINLANG)){
+                    ShareBean bean = new ShareBean();
+                    bean.icon = R.drawable.xinlang;
+                    bean.text = "新浪微博";
+                    bean.type = -1;
+                    bean.proName = XINLANG;
+                    list.add(bean);
+                }
             }
         }else{
             System.out.println("必须设置要分享的平台");
@@ -73,7 +94,7 @@ public class ShareUtils {
             TextView tv_ProName = itemView.findViewById(R.id.tv_ProName);
             iv_ProIcon.setImageResource(shareBean.icon);
             tv_ProName.setText(shareBean.text);
-            itemView.setPadding(0,0,50,0);
+            itemView.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT,1));
             ll_pro.addView(itemView);
             //子条目点击事件
             itemView.setOnClickListener(new View.OnClickListener() {
