@@ -37,12 +37,12 @@ public class ShareUtils {
                 //添加微信平台
                 if (pro[i].equals(WEIXIN)){
                     ShareBean bean1 = new ShareBean();
-                    bean1.icon = R.drawable.alipay;
+                    bean1.icon = R.drawable.session;
                     bean1.text = "微信好友";
-                    bean1.type = WxUtils.TIMELINE;
+                    bean1.type = WxUtils.SESSION;
                     bean1.proName = WEIXIN;
                     ShareBean bean2 = new ShareBean();
-                    bean2.icon = R.drawable.alipay;
+                    bean2.icon = R.drawable.timeline;
                     bean2.text = "朋友圈";
                     bean2.type = WxUtils.TIMELINE;
                     bean2.proName = WEIXIN;
@@ -73,6 +73,7 @@ public class ShareUtils {
             TextView tv_ProName = itemView.findViewById(R.id.tv_ProName);
             iv_ProIcon.setImageResource(shareBean.icon);
             tv_ProName.setText(shareBean.text);
+            itemView.setPadding(0,0,50,0);
             ll_pro.addView(itemView);
             //子条目点击事件
             itemView.setOnClickListener(new View.OnClickListener() {
