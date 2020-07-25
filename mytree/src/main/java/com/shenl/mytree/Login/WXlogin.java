@@ -41,12 +41,11 @@ public class WXlogin {
      * 创建时间:   2020/2/25
      */
     public static void Logout(Context context) {
-        if (api == null) {
+        /*if (api == null) {
             api = WxUtils.RegToWx(context);
-        }
+        }*/
+
         api.unregisterApp();
-        WxUtils.access_token = "";
-        WxUtils.openid = "";
     }
 
     /**

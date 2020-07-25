@@ -1,9 +1,14 @@
 package com.shenl.mytree.Utils;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
+
+import com.tencent.mm.opensdk.constants.ConstantsAPI;
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
@@ -39,26 +44,26 @@ public class WxUtils {
      * 创建时间:   2020/2/24
      */
     public static IWXAPI RegToWx(Context context) {
-        IWXAPI api = null;
         if (TextUtils.isEmpty(APP_ID)){
             Toast.makeText(context,"注册微信appId不能为空",Toast.LENGTH_SHORT).show();
             Log.e("shenl","要注册微信请先调用WxUtils.APP_ID进行赋值操作...");
-            return api;
+            return null;
         }
         // 通过WXAPIFactory工厂，获取IWXAPI的实例
         // IWXAPI 是第三方app和微信通信的openApi接口
-        api = WXAPIFactory.createWXAPI(context, APP_ID, false);
+        final IWXAPI api = WXAPIFactory.createWXAPI(context, APP_ID, false);
         // 将应用的appId注册到微信
-        api.registerApp(APP_ID);
-        return api;
+        //api.registerApp(APP_ID);
+
         //建议动态监听微信启动广播进行注册到微信
-        /*registerReceiver(new BroadcastReceiver() {
+        context.registerReceiver(new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-
                 // 将该app注册到微信
-                api.registerApp(Constants.APP_ID);
+                api.registerApp(APP_ID);
             }
-        }, new IntentFilter(ConstantsAPI.ACTION_REFRESH_WXAPP));*/
+        }, new IntentFilter(ConstantsAPI.ACTION_REFRESH_WXAPP));
+
+        return api;
     }
 }
