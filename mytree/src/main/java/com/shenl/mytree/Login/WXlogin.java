@@ -2,7 +2,6 @@ package com.shenl.mytree.Login;
 
 import android.app.Activity;
 import android.content.Context;
-import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
@@ -12,8 +11,6 @@ import com.shenl.mytree.Utils.JsonUtils;
 import com.shenl.mytree.Utils.WxUtils;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
-
-import java.util.zip.Inflater;
 
 public class WXlogin {
 
@@ -48,6 +45,8 @@ public class WXlogin {
             api = WxUtils.RegToWx(context);
         }
         api.unregisterApp();
+        WxUtils.access_token = "";
+        WxUtils.openid = "";
     }
 
     /**
