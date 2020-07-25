@@ -14,7 +14,7 @@ import com.tencent.mm.opensdk.openapi.IWXAPI;
 
 public class WXlogin {
 
-    private static IWXAPI api;
+    public static IWXAPI api;
 
     /**
      * TODO 功能：微信授权登录
