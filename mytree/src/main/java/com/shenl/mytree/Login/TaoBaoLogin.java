@@ -7,6 +7,9 @@ import com.alibaba.baichuan.trade.biz.login.AlibcLogin;
 import com.alibaba.baichuan.trade.biz.login.AlibcLoginCallback;
 import com.shenl.mytree.Utils.TaobaoUtils;
 import com.shenl.mytree.web.WebViewActivity;
+import com.tencent.mm.opensdk.utils.Log;
+
+import java.io.Console;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -41,6 +44,7 @@ public class TaoBaoLogin {
      */
     public static void tk_Login(Context context, final TkLoginCallBack tkLoginCallBack){
         String url = "https://oauth.taobao.com/authorize?response_type=code&client_id="+ TaobaoUtils.AppKey +"&redirect_uri="+TaobaoUtils.CallBackUrl+"&view=wap";
+        Log.e("shenl",url);
         WebViewActivity.setCallBack(new WebViewActivity.CallBack() {
             @Override
             public void success(String accessToken) {
@@ -54,7 +58,7 @@ public class TaoBaoLogin {
         });
         Intent intent = new Intent(context,WebViewActivity.class);
         intent.putExtra("url", url);
-        intent.putExtra("arguments", new HashMap<String,String>());
+        intent.putExtra("arguments", new HashMap<String,Object>());
         context.startActivity(intent);
     }
 
