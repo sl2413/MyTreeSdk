@@ -1,9 +1,12 @@
 package com.shenl.mytree.Login;
 
+import android.content.Context;
+import android.content.Intent;
 import com.ali.auth.third.core.model.Session;
 import com.alibaba.baichuan.trade.biz.login.AlibcLogin;
 import com.alibaba.baichuan.trade.biz.login.AlibcLoginCallback;
-
+import com.shenl.mytree.Utils.TaobaoUtils;
+import com.shenl.mytree.web.WebViewActivity;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -28,6 +31,31 @@ public class TaoBaoLogin {
                 System.out.println("***淘宝登录失败:"+code+"***{"+msg+"}");
             }
         });
+    }
+    /**
+     * TODO 功能：淘客登录
+     *
+     * 参数说明:
+     * 作    者:   沈  亮
+     * 创建时间:   2019/12/31
+     */
+    public static void tk_Login(Context context, final TkLoginCallBack tkLoginCallBack){
+        String url = "https://oauth.taobao.com/authorize?response_type=code&client_id="+ TaobaoUtils.AppKey +"&redirect_uri="+TaobaoUtils.CallBackUrl+"&view=wap";
+        WebViewActivity.setCallBack(new WebViewActivity.CallBack() {
+            @Override
+            public void success(String accessToken) {
+                tkLoginCallBack.onSuccess(accessToken);
+            }
+
+            @Override
+            public void failed(String errorMsg) {
+                tkLoginCallBack.onError(errorMsg);
+            }
+        });
+        Intent intent = new Intent(context,WebViewActivity.class);
+        intent.putExtra("url", url);
+        intent.putExtra("arguments", new HashMap<String,String>());
+        context.startActivity(intent);
     }
 
     /**
@@ -88,5 +116,17 @@ public class TaoBaoLogin {
     public abstract static class TaoBaoLoginCallBack{
         //"获取淘宝用户信息: " + AlibcLogin.getInstance().getSession()
         public abstract void onSuccess(int code, String openId, String nickName);
+    }
+
+    /**
+     * TODO 功能：淘宝登录回调
+     *
+     * 参数说明:
+     * 作    者:   沈  亮
+     * 创建时间:   2019/12/31
+     */
+    public abstract static class TkLoginCallBack{
+        public abstract void onSuccess(String s);
+        public abstract void onError(String s);
     }
 }

@@ -61,15 +61,14 @@ public class WXshare {
         if (api == null) {
             api = WxUtils.RegToWx(context);
         }
-        try{
             //初始化 WXImageObject 和 WXMediaMessage 对象
             WXImageObject imgObj = new WXImageObject(bmp);
             WXMediaMessage msg = new WXMediaMessage();
             msg.mediaObject = imgObj;
             //设置缩略图
-            Bitmap thumbBmp = Bitmap.createScaledBitmap(bmp, THUMB_SIZE, THUMB_SIZE, true);
-            bmp.recycle();
-            msg.thumbData = bmpToByteArray(thumbBmp, true);
+//            Bitmap thumbBmp = Bitmap.createScaledBitmap(bmp, THUMB_SIZE, THUMB_SIZE, true);
+//            bmp.recycle();
+            msg.thumbData = bmpToByteArray(bmp, true);
             //构造一个Req
             SendMessageToWX.Req req = new SendMessageToWX.Req();
             req.transaction = buildTransaction("img");
@@ -77,9 +76,6 @@ public class WXshare {
             req.scene = scene;
             //调用api接口，发送数据到微信
             api.sendReq(req);
-        }catch (Exception e){
-
-        }
     }
 
     /**

@@ -18,9 +18,8 @@ import java.util.Map;
 
 public class TaobaoUtils {
 
-    public static String Pid;
-    public static String Adzoneid;
     public static String AppKey;
+    public static String CallBackUrl;
 
     /**
      * TODO 功能：活动任务适配器
@@ -29,14 +28,11 @@ public class TaobaoUtils {
      * 作    者:   沈  亮
      * 创建时间:   2020/1/10
      *
-     * @param Pid
-     * @param Adzoneid
      * @param AppKey
      */
-    public void setParams(String Pid, String Adzoneid, String AppKey) {
-        this.Pid = Pid;
-        this.Adzoneid = Adzoneid;
+    public void setParams(String AppKey,String callBackUrl) {
         this.AppKey = AppKey;
+        this.CallBackUrl = callBackUrl;
     }
 
     /**
@@ -48,7 +44,7 @@ public class TaobaoUtils {
      */
     private static boolean isAppKey() {
         boolean b = false;
-        if (!TextUtils.isEmpty(AppKey) && !TextUtils.isEmpty(Pid) && !TextUtils.isEmpty(Adzoneid)) {
+        if (!TextUtils.isEmpty(AppKey)) {
             b = true;
         } else {
             System.out.println("还未设置参数,请在初始化之后调用方法TaobaoUtils.setParams()");
@@ -77,7 +73,7 @@ public class TaobaoUtils {
         //AlibcNativeFailModeJumpDOWNLOAD：跳转下载页；
         //AlibcNativeFailModeJumpH5：应用内webview打开
         showParams.setNativeOpenFailedMode(AlibcFailModeType.AlibcNativeFailModeJumpH5);
-        AlibcTaokeParams taokeParams = new AlibcTaokeParams(Pid, "", "");
+        AlibcTaokeParams taokeParams = new AlibcTaokeParams("", "", "");
         // 以显示传入url的方式打开页面（第二个参数是套件名称）
         //webView.loadUrl("file:///android_asset/index.html");
         AlibcTrade.openByUrl(activity, "", url, null,
