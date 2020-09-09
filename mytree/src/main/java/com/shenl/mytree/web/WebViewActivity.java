@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -13,6 +12,7 @@ import android.webkit.JavascriptInterface;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Toast;
 
 import com.alibaba.baichuan.android.trade.AlibcTrade;
 import com.alibaba.baichuan.android.trade.callback.AlibcTradeCallback;
@@ -21,12 +21,11 @@ import com.alibaba.baichuan.trade.biz.applink.adapter.AlibcFailModeType;
 import com.alibaba.baichuan.trade.biz.context.AlibcTradeResult;
 import com.alibaba.baichuan.trade.biz.core.taoke.AlibcTaokeParams;
 import com.shenl.mytree.R;
+import com.shenl.mytree.Utils.JsonUtils;
 import com.shenl.mytree.Utils.TaobaoUtils;
-
 import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.Map;
-
 import static com.shenl.mytree.web.BaichuanUtil.getClientType;
 import static com.shenl.mytree.web.BaichuanUtil.getFailModeType;
 import static com.shenl.mytree.web.BaichuanUtil.getOpenType;
@@ -44,6 +43,14 @@ public class WebViewActivity extends Activity {
     @JavascriptInterface
     public void show(String txt) {
         callBack.success(txt);
+        int start = txt.indexOf("{");
+        int end = txt.indexOf("}")+1;
+        String s = txt.substring(start,end);
+        String code = JsonUtils.getFieldValue(s, "code");
+        if (!"0".equals(code)){
+            Toast.makeText(WebViewActivity.this,JsonUtils.getFieldValue(s,"msg"),Toast.LENGTH_SHORT).show();
+        }
+        finish();
     }
 
     @Override
@@ -107,9 +114,9 @@ public class WebViewActivity extends Activity {
         WebViewClient client = new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                Log.i("完成重载", "url:"+url);
                 int i = TaobaoUtils.CallBackUrl.indexOf("?");
-                if (url.contains(TaobaoUtils.CallBackUrl.substring(0,i))) {
+                int i1 = url.indexOf("?");
+                if (url.substring(0,i1).equals(TaobaoUtils.CallBackUrl.substring(0,i))){
                     setVisible(false);
                 }
                 return false;
@@ -118,11 +125,10 @@ public class WebViewActivity extends Activity {
             @Override
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
-                Log.i("完成页面", "url:"+url);
                 int i = TaobaoUtils.CallBackUrl.indexOf("?");
-                if (url.contains(TaobaoUtils.CallBackUrl.substring(0,i))){
+                int i1 = url.indexOf("?");
+                if (url.substring(0,i1).equals(TaobaoUtils.CallBackUrl.substring(0,i))){
                     view.loadUrl("javascript:window.handler.show(document.body.innerHTML);");
-                    finish();
                 }
             }
         };
@@ -150,6 +156,10 @@ public class WebViewActivity extends Activity {
     public interface CallBack{
         void success(String accessToken);
         void failed(String errorMsg);
+    }
+
+    public void Back(View v){
+        finish();
     }
 
     public static void makeStatusBarTransparent(Activity activity) {

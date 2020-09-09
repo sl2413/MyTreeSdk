@@ -45,29 +45,20 @@ public class MainActivity extends Activity {
 
     public void loginTaobao(View v) {
 //        TaobaoUtils.Pid = "mm_43873942_452300281_109725600386";
-        TaobaoUtils.Pid = "mm_43873942_1234500410_109945250290";
-        TaobaoUtils.Adzoneid = "109725600386";
         TaobaoUtils.AppKey = "27996984";
+        TaobaoUtils.CallBackUrl = "http://m.qianrong.vip:8040/qr-consumer-user/userserver/user/getTaobaoAccessToken?view=wap&state="+"12235";
         TaoBaoLogin.Login(new TaoBaoLogin.TaoBaoLoginCallBack() {
             @Override
             public void onSuccess(int code, String openId, String nickName) {
-                BridgeWebView webView = new BridgeWebView(MainActivity.this);
-                webView.setDefaultHandler(new DefaultHandler());
-                webView.setWebChromeClient(new WebChromeClient());
-                webView.registerHandler("submitFromWeb", new BridgeHandler() {
+                TaoBaoLogin.tk_Login(MainActivity.this, new TaoBaoLogin.TkLoginCallBack() {
                     @Override
-                    public void handler(String data, CallBackFunction function) {
-                        Log.e("shenl", "js返回：" + data);
-                        //Android返回给JS的消息
-                        function.onCallBack("我是js调用Android返回数据：");
+                    public void onSuccess(String s) {
+                        Log.e("shenl",s);
                     }
-                });
-                //webView.loadUrl("file:///android_asset/index.html");
-                String url = "https://oauth.taobao.com/authorize?response_type=code&client_id=28294826&redirect_uri=http://m.qianrong.vip:8040/qr-consumer-user/userserver/user/getTaobaoAccessToken&view=wap&state=1";
-                TaobaoUtils.openDetailsByUrl(MainActivity.this, "taobao", url, "", new HashMap<String, String>(), new OpenPageCallBack() {
+
                     @Override
-                    public void success(List<String> paySuccessOrders, List<String> payFailedOrders) {
-                        Log.e("shenl", "授权完成");
+                    public void onError(String s) {
+                        Log.e("shenl",s);
                     }
                 });
             }
