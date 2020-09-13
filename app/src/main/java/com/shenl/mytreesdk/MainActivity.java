@@ -7,12 +7,6 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.webkit.WebChromeClient;
-
-import com.github.lzyzsd.jsbridge.BridgeHandler;
-import com.github.lzyzsd.jsbridge.BridgeWebView;
-import com.github.lzyzsd.jsbridge.CallBackFunction;
-import com.github.lzyzsd.jsbridge.DefaultHandler;
 import com.shenl.mytree.Login.TaoBaoLogin;
 import com.shenl.mytree.Login.WXlogin;
 import com.shenl.mytree.Share.ShareUtils;
