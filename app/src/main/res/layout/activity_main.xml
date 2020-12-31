@@ -107,6 +107,12 @@
                 android:text="微信登出"
                 android:onClick="WXlogout"/>
 
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="小程序"
+                android:onClick="WXmini"/>
+
         </LinearLayout>
 
     </ScrollView>

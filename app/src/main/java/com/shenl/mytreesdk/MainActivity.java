@@ -10,6 +10,7 @@ import android.view.View;
 import com.shenl.mytree.Login.TaoBaoLogin;
 import com.shenl.mytree.Login.WXlogin;
 import com.shenl.mytree.Share.ShareUtils;
+import com.shenl.mytree.Share.WXjump;
 import com.shenl.mytree.Share.WXshare;
 import com.shenl.mytree.Utils.HttpUtils;
 import com.shenl.mytree.Utils.JsonUtils;
@@ -35,6 +36,12 @@ public class MainActivity extends Activity {
 
     public void initTaobao(View v) {
         TaoBaoInit.Init(getApplication());
+    }
+
+    public void WXmini(View v){
+        String MiniProgramId = "wx681b1e78da02dd16";
+        String path = "pages/index/index?union=BHIizg3W";
+        WXjump.LaunchMiniProgram(MainActivity.this,MiniProgramId,path);
     }
 
     public void loginTaobao(View v) {
