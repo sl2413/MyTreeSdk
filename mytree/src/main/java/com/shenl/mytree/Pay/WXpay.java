@@ -1,6 +1,7 @@
 package com.shenl.mytree.Pay;
 
 import android.animation.PropertyValuesHolder;
+import android.content.Context;
 import android.os.Build;
 import android.text.TextUtils;
 
@@ -9,6 +10,8 @@ import androidx.annotation.RequiresApi;
 import com.shenl.mytree.Utils.MD5Util;
 import com.shenl.mytree.Utils.WxUtils;
 import com.shenl.mytree.bean.UnifiedorderBean;
+import com.tencent.mm.opensdk.modelpay.PayReq;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
 
 import org.w3c.dom.Document;
 
@@ -26,6 +29,7 @@ import javax.xml.transform.stream.StreamResult;
 
 public class WXpay {
 
+    private static IWXAPI api;
     private static String stringA;
 
     /**
@@ -99,5 +103,27 @@ public class WXpay {
             nonceChars[index] = SYMBOLS.charAt(RANDOM.nextInt(SYMBOLS.length()));
         }
         return new String(nonceChars);
+    }
+
+    /**
+     * TODO 功能：app调用微信支付功能
+     *
+     * 参数说明:
+     * 作    者:   沈  亮
+     * 创建时间:   2021/3/27
+     */
+    public static void pay(Context context, Map<String,Object> map){
+        if (api == null) {
+            api = WxUtils.RegToWx(context);
+        }
+        PayReq request = new PayReq();
+        request.appId = (String) map.get("appId");
+        request.partnerId = (String) map.get("partnerId");
+        request.prepayId= (String) map.get("prepayId");
+        request.packageValue = (String) map.get("packageValue");
+        request.nonceStr= (String) map.get("nonceStr");
+        request.timeStamp= (String) map.get("timeStamp");
+        request.sign= (String) map.get("sign");
+        api.sendReq(request);
     }
 }
